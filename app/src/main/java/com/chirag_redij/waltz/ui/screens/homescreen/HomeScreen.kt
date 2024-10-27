@@ -1,6 +1,9 @@
 package com.chirag_redij.waltz.ui.screens.homescreen
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -39,14 +42,18 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootGraph
 import com.ramcosta.composedestinations.generated.destinations.DetailScreenDestination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import com.valentinilk.shimmer.ShimmerBounds
+import com.valentinilk.shimmer.rememberShimmer
 import org.koin.androidx.compose.koinViewModel
 import timber.log.Timber
 import kotlin.random.Random
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 @Destination<RootGraph>(start = true)
 @Composable
-fun HomeScreen(
+fun SharedTransitionScope.HomeScreen(
     navigator: DestinationsNavigator,
+    animatedVisibilityScope: AnimatedVisibilityScope,
     homeScreenViewModel: HomeScreenViewModel = koinViewModel()
 ) {
 
@@ -58,6 +65,7 @@ fun HomeScreen(
     val isEndReach by homeScreenViewModel.isEndReached.collectAsStateWithLifecycle()
 
     val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
+    val shimmerInstance = rememberShimmer(shimmerBounds = ShimmerBounds.Window)
 
     val columns = when (windowSizeClass.windowWidthSizeClass) {
         WindowWidthSizeClass.COMPACT -> 2
@@ -165,6 +173,8 @@ fun HomeScreen(
                 PhotoItem(
                     photo,
                     windowSizeClass.windowHeightSizeClass,
+                    shimmerInstance,
+                    animatedVisibilityScope,
                     onPhotoClicked = {
                         navigator.navigate(DetailScreenDestination(photo))
                     },

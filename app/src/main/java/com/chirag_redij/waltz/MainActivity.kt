@@ -9,6 +9,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -29,6 +31,7 @@ import com.google.android.play.core.ktx.isFlexibleUpdateAllowed
 import com.google.android.play.core.ktx.isImmediateUpdateAllowed
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.generated.NavGraphs
+import com.ramcosta.composedestinations.navigation.dependency
 import timber.log.Timber
 
 class MainActivity : ComponentActivity() {
@@ -36,7 +39,9 @@ class MainActivity : ComponentActivity() {
     private lateinit var appUpdateManager: AppUpdateManager
     private val updateType = AppUpdateType.IMMEDIATE
 
-    @OptIn(ExperimentalWindowCoreApi::class, ExperimentalComposeUiApi::class)
+    @OptIn(ExperimentalWindowCoreApi::class, ExperimentalComposeUiApi::class,
+        ExperimentalSharedTransitionApi::class
+    )
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -67,12 +72,18 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             WaltzTheme {
-                DestinationsNavHost(
-                    navGraph = NavGraphs.root,
-                    modifier = Modifier.semantics {
-                        testTagsAsResourceId = true
-                    }
-                )
+
+                SharedTransitionLayout {
+                    DestinationsNavHost(
+                        navGraph = NavGraphs.root,
+                        modifier = Modifier.semantics {
+                            testTagsAsResourceId = true
+                        },
+                        dependenciesContainerBuilder = {
+                            dependency(this@SharedTransitionLayout)
+                        }
+                    )
+                }
             }
         }
     }
