@@ -10,6 +10,10 @@ import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
+import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.window.core.ExperimentalWindowCoreApi
 import androidx.window.core.layout.WindowHeightSizeClass
@@ -32,7 +36,7 @@ class MainActivity : ComponentActivity() {
     private lateinit var appUpdateManager: AppUpdateManager
     private val updateType = AppUpdateType.IMMEDIATE
 
-    @OptIn(ExperimentalWindowCoreApi::class)
+    @OptIn(ExperimentalWindowCoreApi::class, ExperimentalComposeUiApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -63,7 +67,12 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             WaltzTheme {
-                DestinationsNavHost(navGraph = NavGraphs.root)
+                DestinationsNavHost(
+                    navGraph = NavGraphs.root,
+                    modifier = Modifier.semantics {
+                        testTagsAsResourceId = true
+                    }
+                )
             }
         }
     }

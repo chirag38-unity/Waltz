@@ -44,8 +44,8 @@ android {
         applicationId = "com.chirag_redij.waltz"
         minSdk = 24
         targetSdk = 35
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 2
+        versionName = "2.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -67,10 +67,14 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            signingConfig = signingConfigs.getByName("release")
+            signingConfig = signingConfigs.getByName("debug")
         }
         getByName("debug") {
             signingConfig = signingConfigs.getByName("release")
+        }
+        create("benchmark") {
+            initWith(buildTypes.getByName("release"))
+            matchingFallbacks += listOf("release")
         }
     }
     compileOptions {
@@ -150,6 +154,9 @@ dependencies {
 
     // Serialization -------------------------------------------------------------------------------
     implementation(libs.kotlinx.serialization.json)
+
+    // Profile Installer ---------------------------------------------------------------------------
+    implementation("androidx.profileinstaller:profileinstaller:1.4.1")
 
     // Google InApp Update
     implementation("com.google.android.play:app-update:2.1.0")

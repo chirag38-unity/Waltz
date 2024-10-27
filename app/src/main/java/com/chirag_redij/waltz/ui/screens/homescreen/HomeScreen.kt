@@ -21,6 +21,7 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.window.core.layout.WindowWidthSizeClass
@@ -121,6 +122,7 @@ fun HomeScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
+                .testTag("photos_feed")
         ) {
 
             item (
@@ -137,7 +139,7 @@ fun HomeScreen(
                     )
                     val initLoadingProgress by animateLottieCompositionAsState(
                         composition = initLoadingLottieComposition,
-                        iterations = 1
+                        iterations = LottieConstants.IterateForever
                     )
 
                     Row (
@@ -169,7 +171,6 @@ fun HomeScreen(
                     modifier = Modifier.animateItem()
                 )
             }
-
 
             item (
                 span = StaggeredGridItemSpan.FullLine

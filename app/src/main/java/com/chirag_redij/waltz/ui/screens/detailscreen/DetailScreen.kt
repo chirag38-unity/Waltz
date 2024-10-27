@@ -130,6 +130,7 @@ fun DetailScreen(
                             )
                         )
                         .padding(innerPadding)
+
                 ) {
 
                     Text(
@@ -146,7 +147,8 @@ fun DetailScreen(
                 Row (
                     modifier = Modifier
                         .align(Alignment.BottomCenter)
-                        .padding(innerPadding),
+                        .padding(innerPadding)
+                        .padding(bottom = 20.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {

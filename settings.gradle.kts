@@ -22,4 +22,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Waltz"
 include(":app")
- 
+include(":benchmark")
