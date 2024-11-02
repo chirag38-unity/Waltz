@@ -1,5 +1,8 @@
 package com.chirag_redij.waltz.ui.screens.homescreen
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.chirag_redij.waltz.network.api.APIRepository
@@ -30,6 +33,8 @@ class HomeScreenViewModel : ViewModel() {
             emptyList()     // Initial Value
         )
 
+    private var pageIndex by mutableIntStateOf(0)
+
     private val _initLoading = MutableStateFlow(true)
     val initLoading = _initLoading.asStateFlow()
 
@@ -40,9 +45,8 @@ class HomeScreenViewModel : ViewModel() {
     val isEndReached = _isEndReached.asStateFlow()
 
     private fun loadInitialFeed() {
-
         viewModelScope.launch {
-            APIRepository.getPhotosFeed((_feedPhotosList.value.size / FEED_IMAGE_COUNT) + 1 )
+            APIRepository.getPhotosFeed(++pageIndex)
                 .onSuccess { feedList ->
 
                     viewModelScope.launch {
@@ -93,7 +97,7 @@ class HomeScreenViewModel : ViewModel() {
         }
 
         viewModelScope.launch {
-            APIRepository.getPhotosFeed((_feedPhotosList.value.size / FEED_IMAGE_COUNT) + 1 )
+            APIRepository.getPhotosFeed(++pageIndex )
                 .onSuccess { feedList ->
                     viewModelScope.launch {
 
