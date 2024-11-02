@@ -24,9 +24,11 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Download
+import androidx.compose.material.icons.rounded.PhotoLibrary
 import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -136,12 +138,6 @@ fun SharedTransitionScope.DetailScreen(
 
             Box (
                 modifier = Modifier
-//                    .sharedBounds(
-//                        sharedContentState = rememberSharedContentState(
-//                            key = "${photoModel.id}_bounds"
-//                        ),
-//                        animatedVisibilityScope = animatedVisibilityScope
-//                    )
                     .fillMaxSize()
             ) {
 
@@ -252,12 +248,14 @@ fun SharedTransitionScope.DetailScreen(
 
                         Spacer(modifier = Modifier.width(20.dp))
 
-                        FloatingActionButton(
+                        ExtendedFloatingActionButton (
                             onClick = {
                                 detailScreenViewModel.setWallpaper(photoModel)
                             }
                         ) {
-                            Icon(imageVector = Icons.Rounded.Save, contentDescription = "Set Image")
+                            Icon(imageVector = Icons.Rounded.PhotoLibrary, contentDescription = "Set Image")
+                            Spacer(modifier = Modifier.width(10.dp))
+                            Text("Set Wallpaper")
                         }
 
                     }

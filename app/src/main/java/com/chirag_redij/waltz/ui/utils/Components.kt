@@ -74,7 +74,7 @@ fun SharedTransitionScope.PhotoItem(
             )
     ) {
         SubcomposeAsyncImage(
-            model = photo.src.original,
+            model = photo.src.large,
             contentDescription = photo.alt,
             contentScale = ContentScale.Crop,
             loading = {

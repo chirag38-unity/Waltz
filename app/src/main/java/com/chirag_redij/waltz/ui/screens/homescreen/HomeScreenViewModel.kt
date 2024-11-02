@@ -11,8 +11,10 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import kotlin.random.Random
@@ -44,7 +46,9 @@ class HomeScreenViewModel : ViewModel() {
                 .onSuccess { feedList ->
 
                     viewModelScope.launch {
-                        _isEndReached.emit(feedList.page * feedList.per_page >= feedList.total_results)
+                        _isEndReached.update {
+                            feedList.page * feedList.per_page >= feedList.total_results
+                        }
                     }
 
                     val currentList = _feedPhotosList.value
@@ -64,8 +68,10 @@ class HomeScreenViewModel : ViewModel() {
                         val combinedList = currentList + updatedPhotosList
 
                         viewModelScope.launch {
-                            _feedPhotosList.emit(combinedList)
-                            _initLoading.emit(false)
+                            _feedPhotosList.update {
+                                combinedList
+                            }
+                            _initLoading.update{false}
                         }
 
                     }
@@ -74,7 +80,7 @@ class HomeScreenViewModel : ViewModel() {
                 .onError { error ->
                     Timber.tag("loadInitialFeed").d(error.name)
                     viewModelScope.launch {
-                        _initLoading.emit(false)
+                        _initLoading.update{false}
                     }
                 }
 
@@ -92,7 +98,9 @@ class HomeScreenViewModel : ViewModel() {
                     viewModelScope.launch {
 
                         viewModelScope.launch {
-                            _isEndReached.emit(feedList.page * feedList.per_page >= feedList.total_results)
+                            _isEndReached.update{
+                                feedList.page * feedList.per_page >= feedList.total_results
+                            }
                         }
 
                         val currentList = _feedPhotosList.value
@@ -111,8 +119,8 @@ class HomeScreenViewModel : ViewModel() {
 
                         viewModelScope.launch {
                             delay(1000)
-                            _feedPhotosList.emit(combinedList)
-                            _paging.emit(false)
+                            _feedPhotosList.update{ combinedList }
+                            _paging.update{ false }
                         }
 
                     }
@@ -121,7 +129,7 @@ class HomeScreenViewModel : ViewModel() {
                 .onError { error ->
                     Timber.tag("loadInitialFeed").d(error.name)
                     viewModelScope.launch {
-                        _paging.emit(false)
+                        _paging.update{ false }
                     }
                 }
 
