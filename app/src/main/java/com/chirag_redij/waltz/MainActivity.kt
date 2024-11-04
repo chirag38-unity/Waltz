@@ -23,6 +23,7 @@ import androidx.window.core.layout.WindowSizeClass
 import androidx.window.core.layout.WindowWidthSizeClass
 import androidx.window.layout.WindowMetricsCalculator
 import com.chirag_redij.waltz.ui.theme.WaltzTheme
+import com.chirag_redij.waltz.ui.utils.FadeTransition
 import com.google.android.play.core.appupdate.AppUpdateManager
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.install.model.AppUpdateType
@@ -83,7 +84,7 @@ class MainActivity : ComponentActivity() {
                         },
                         dependenciesContainerBuilder = {
                             dependency(this@SharedTransitionLayout)
-                        }
+                        },
                     )
                 }
             }

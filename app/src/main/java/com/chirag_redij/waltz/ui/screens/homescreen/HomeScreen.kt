@@ -36,6 +36,7 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import com.chirag_redij.waltz.MainActivity
 import com.chirag_redij.waltz.R
 import com.chirag_redij.waltz.network.dataclasses.domain_states.PhotoModel
+import com.chirag_redij.waltz.ui.utils.FadeTransition
 import com.chirag_redij.waltz.ui.utils.PhotoItem
 import com.google.android.play.core.review.ReviewManagerFactory
 import com.ramcosta.composedestinations.annotation.Destination
@@ -49,7 +50,10 @@ import timber.log.Timber
 import kotlin.random.Random
 
 @OptIn(ExperimentalSharedTransitionApi::class)
-@Destination<RootGraph>(start = true)
+@Destination<RootGraph>(
+    start = true,
+    style = FadeTransition::class
+)
 @Composable
 fun SharedTransitionScope.HomeScreen(
     navigator: DestinationsNavigator,
@@ -103,10 +107,6 @@ fun SharedTransitionScope.HomeScreen(
     }
 
     LaunchedEffect (true) { maybeTriggerInAppReview() }
-
-    LaunchedEffect(photosList) {
-        Timber.tag("LoadData").d(photosList.size.toString())
-    }
 
     LaunchedEffect(gridState) {
         snapshotFlow { gridState.firstVisibleItemIndex + gridState.layoutInfo.visibleItemsInfo.size }

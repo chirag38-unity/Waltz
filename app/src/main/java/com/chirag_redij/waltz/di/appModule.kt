@@ -1,5 +1,6 @@
 package com.chirag_redij.waltz.di
 
+import androidx.lifecycle.SavedStateHandle
 import com.chirag_redij.waltz.ui.screens.detailscreen.DetailScreenViewModel
 import com.chirag_redij.waltz.ui.screens.homescreen.HomeScreenViewModel
 import com.chirag_redij.waltz.ui.utils.WallpaperProvider
@@ -13,8 +14,8 @@ val appModule = module {
         HomeScreenViewModel()
     }
 
-    viewModel {
-        DetailScreenViewModel(get())
+    viewModel { (handle: SavedStateHandle) ->
+        DetailScreenViewModel(get(), handle)
     }
 
     single {

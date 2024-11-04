@@ -42,10 +42,10 @@ android {
 
     defaultConfig {
         applicationId = "com.chirag_redij.waltz"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 35
-        versionCode = 2
-        versionName = "2.0"
+        versionCode = 4
+        versionName = "4.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -55,8 +55,6 @@ android {
         buildConfigField("String","authorizationKey","\"$authorizationKey\"")
 
     }
-
-
 
     buildTypes {
         release {
@@ -156,14 +154,12 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
 
     // Profile Installer ---------------------------------------------------------------------------
-    implementation("androidx.profileinstaller:profileinstaller:1.4.1")
+    implementation(libs.androidx.profileInstaller)
 
-    // Google InApp Update
-    implementation("com.google.android.play:app-update:2.1.0")
-    implementation("com.google.android.play:app-update-ktx:2.1.0")
+    // Google InApp Update & Review ----------------------------------------------------------------
+    implementation(libs.bundles.inAppBundle)
 
-    // Google InApp Review
-    implementation("com.google.android.play:review:2.0.1")
-    implementation("com.google.android.play:review-ktx:2.0.1")
+    // Palette -------------------------------------------------------------------------------------
+    implementation(libs.bundles.palette)
 
 }
